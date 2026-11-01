@@ -18,7 +18,7 @@
       "categoria": "Alacena",
       "unidad": "ml",
       "consumoDia": 40,
-      "cantidad": 0,
+      "cantidad": 800,
       "empaque": 2000
     },
     {
@@ -942,5 +942,5 @@
       "empaque": 1
     }
   ],
-  "actualizado": "2026-11-01T03:09:08.302Z"
+  "actualizado": "2026-11-01T03:09:18.564Z"
 }
