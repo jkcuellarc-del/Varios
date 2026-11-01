@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f6f4a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Mercado en casa</title>
+<style>
+  :root{
+    --bg:#f5f4ef; --card:#fff; --ink:#1d2320; --muted:#6b736e; --line:#e3e1d9;
+    --brand:#1f6f4a; --brand-soft:#e3f1e9;
+    --red:#c0392b; --red-soft:#fbe9e7; --amber:#b9770e; --amber-soft:#fdf3e1; --green:#1f6f4a; --green-soft:#e3f1e9;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#141816; --card:#1d2220; --ink:#ecefed; --muted:#9aa49f; --line:#2c3330;
+      --brand:#4cb582; --brand-soft:#1d3329; --red:#ff7b6b; --red-soft:#3a2220; --amber:#f2b552; --amber-soft:#3a2f1c; --green:#4cb582; --green-soft:#1d3329; }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{position:sticky;top:0;z-index:5;background:var(--brand);color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 0}
+  header h1{margin:0;font-size:1.15rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:8px}
+  #syncState{font-size:.75rem;font-weight:500;opacity:.9;background:rgba(255,255,255,.15);padding:3px 8px;border-radius:99px;white-space:nowrap}
+  nav{display:flex;gap:4px;margin-top:10px}
+  nav button{flex:1;background:none;border:0;color:#fff;opacity:.75;padding:10px 4px 12px;font:inherit;font-weight:600;border-bottom:3px solid transparent;cursor:pointer}
+  nav button.on{opacity:1;border-bottom-color:#fff}
+  main{max-width:1100px;margin:0 auto;padding:14px 14px 100px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px}
+  .stat b{display:block;font-size:1.5rem}
+  .stat span{color:var(--muted);font-size:.8rem}
+  .stat.red b{color:var(--red)}
+  .tools{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+  .tools input,.tools select{flex:1 1 140px}
+  input,select{font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-width:0;width:100%}
+  input:focus,select:focus{outline:2px solid var(--brand);outline-offset:-1px}
+  label{display:block;font-size:.85rem;color:var(--muted);margin:10px 0 4px}
+  .btn{font:inherit;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:10px;padding:10px 14px;cursor:pointer}
+  .btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+  .btn.danger{color:var(--red)}
+  .btn:disabled{opacity:.5}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;border-left:5px solid var(--green)}
+  .card.warn{border-left-color:var(--amber)} .card.crit{border-left-color:var(--red)}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .card h3{margin:0;font-size:1.05rem}
+  .cat{font-size:.75rem;color:var(--muted)}
+  .brand{font-size:.8rem;font-weight:500;color:var(--muted)}
+  .pk{font-size:.8rem;color:var(--muted);margin:-4px 0 8px}
+  .pill{font-size:.8rem;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap;background:var(--green-soft);color:var(--green)}
+  .warn .pill{background:var(--amber-soft);color:var(--amber)} .crit .pill{background:var(--red-soft);color:var(--red)}
+  .qty{display:flex;align-items:center;gap:6px;margin:10px 0 8px}
+  .qty button{width:42px;height:42px;flex:none;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:1.3rem;cursor:pointer}
+  .qty input{text-align:center;font-size:1.1rem;font-weight:700}
+  .qty .u{color:var(--muted);font-size:.85rem;min-width:46px}
+  .meta{display:flex;justify-content:space-between;gap:8px;font-size:.85rem;color:var(--muted);flex-wrap:wrap}
+  .meta strong{color:var(--ink)}
+  .buy{color:var(--brand)!important}
+  .edit{background:none;border:0;color:var(--muted);cursor:pointer;font-size:.85rem;padding:2px 0;text-decoration:underline}
+  .fab{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:6;border-radius:99px;padding:14px 20px;box-shadow:0 6px 18px rgba(0,0,0,.25)}
+  .empty{text-align:center;color:var(--muted);padding:40px 10px}
+  .catgroup h2{font-size:.95rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:18px 0 8px}
+  .row{color:var(--ink);font-size:1rem;margin-top:0;display:flex;align-items:center;gap:12px;cursor:pointer;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+  .row input[type=checkbox]{width:22px;height:22px;flex:none;accent-color:var(--brand)}
+  .row .n{flex:1}
+  .row .n small{display:block;color:var(--muted)}
+  .row .q{font-weight:700;text-align:right;max-width:45%}
+  .row.done{opacity:.5} .row.done .n b{text-decoration:line-through}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:14px}
+  .panel h2{margin:0 0 4px;font-size:1.05rem}
+  .panel p{margin:4px 0;color:var(--muted);font-size:.9rem}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  dialog{border:0;border-radius:18px;padding:0;width:min(520px,94vw);background:var(--card);color:var(--ink)}
+  dialog::backdrop{background:rgba(0,0,0,.45)}
+  dialog form{padding:18px}
+  dialog h2{margin:0 0 6px}
+  .hint{font-size:.8rem;color:var(--muted);margin-top:4px}
+  .calc{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--brand-soft);font-size:.9rem}
+  #toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 16px;border-radius:10px;font-size:.9rem;opacity:0;transition:opacity .25s;pointer-events:none;z-index:20;max-width:90vw;text-align:center}
+  #toast.show{opacity:1}
+  .hidden{display:none!important}
+  @media (max-width:520px){ .stat b{font-size:1.25rem} .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<header>
+  <h1>🛒 Mercado en casa <span id="syncState">Guardado en este equipo</span></h1>
+  <nav>
+    <button data-tab="inv" class="on">Inventario</button>
+    <button data-tab="buy">Lista de compras</button>
+    <button data-tab="cfg">Ajustes</button>
+  </nav>
+</header>
+
+<main>
+  <!-- INVENTARIO -->
+  <section id="tab-inv">
+    <div class="stats">
+      <div class="stat"><b id="sTotal">0</b><span>productos</span></div>
+      <div class="stat red"><b id="sCrit">0</b><span>duran &lt; 7 días</span></div>
+      <div class="stat"><b id="sBuy">0</b><span>por comprar</span></div>
+    </div>
+    <div class="tools">
+      <input id="q" type="search" placeholder="Buscar producto…">
+      <select id="fCat"><option value="">Todas las categorías</option></select>
+      <select id="sort">
+        <option value="dias">Se acaban primero</option>
+        <option value="nombre">Nombre (A-Z)</option>
+        <option value="cat">Categoría</option>
+      </select>
+    </div>
+    <div id="list" class="grid"></div>
+  </section>
+
+  <!-- LISTA DE COMPRAS -->
+  <section id="tab-buy" class="hidden">
+    <div class="panel">
+      <h2>Para completar <span class="metaDays">30</span> días</h2>
+      <p>Cantidad que falta de cada producto según tu inventario actual. Marca lo que vayas comprando.</p>
+      <div class="actions">
+        <button class="btn" id="btnShare">Compartir / copiar lista</button>
+        <button class="btn" id="btnBought">Sumar lo marcado al inventario</button>
+      </div>
+    </div>
+    <div id="buyList"></div>
+  </section>
+
+  <!-- AJUSTES -->
+  <section id="tab-cfg" class="hidden">
+    <div class="panel">
+      <h2>Meta de abastecimiento</h2>
+      <p>Días que quieres tener cubiertos al hacer mercado.</p>
+      <label for="target">Días objetivo</label>
+      <input id="target" type="number" min="1" step="1" value="30">
+    </div>
+
+    <div class="panel">
+      <h2>Sincronizar con GitHub</h2>
+      <p>Guarda el inventario en un archivo <code>.json</code> de tu repositorio para verlo igual en celular, tableta y laptop. El token se guarda solo en este navegador.</p>
+      <div class="two">
+        <div><label for="ghOwner">Usuario / organización</label><input id="ghOwner" placeholder="miusuario"></div>
+        <div><label for="ghRepo">Repositorio</label><input id="ghRepo" placeholder="mercado"></div>
+        <div><label for="ghPath">Ruta del archivo</label><input id="ghPath" placeholder="productos.json"></div>
+        <div><label for="ghBranch">Rama</label><input id="ghBranch" placeholder="main"></div>
+      </div>
+      <label for="ghToken">Token de acceso (fine-grained, permiso <em>Contents: Read and write</em>)</label>
+      <input id="ghToken" type="password" placeholder="github_pat_…" autocomplete="off">
+      <label style="display:flex;align-items:center;gap:8px;color:var(--ink)"><input id="ghAuto" type="checkbox" style="width:auto"> Cargar automáticamente al abrir y guardar al hacer cambios</label>
+      <div class="actions">
+        <button class="btn" id="ghSaveCfg">Guardar ajustes</button>
+        <button class="btn" id="ghPull">⬇ Cargar desde GitHub</button>
+        <button class="btn primary" id="ghPush">⬆ Guardar en GitHub</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Copia de seguridad</h2>
+      <p>Descarga o carga el inventario como archivo JSON.</p>
+      <div class="actions">
+        <button class="btn" id="btnExport">Descargar JSON</button>
+        <button class="btn" id="btnImport">Cargar JSON</button>
+        <input id="fileImport" type="file" accept=".json,application/json" class="hidden">
+        <button class="btn danger" id="btnReset">Borrar todo</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<button class="btn primary fab" id="btnAdd">＋ Producto</button>
+
+<dialog id="dlg">
+  <form method="dialog" id="frm">
+    <h2 id="dlgTitle">Nuevo producto</h2>
+    <label for="fNombre">Producto</label>
+    <input id="fNombre" required placeholder="Ej: Arroz">
+    <label for="fMarca">Marca</label>
+    <input id="fMarca" placeholder="Opcional">
+    <label for="fCategoria">Categoría</label>
+    <input id="fCategoria" list="catList" required placeholder="Ej: Granos">
+    <datalist id="catList"></datalist>
+    <div class="two">
+      <div><label for="fUnidad">Unidad</label><input id="fUnidad" list="unitList" required placeholder="kg, g, und, L…"></div>
+      <div><label for="fConsumo">Consumo por día</label><input id="fConsumo" type="number" min="0" step="any" required placeholder="0.25"></div>
+      <div><label for="fCantidad">Cantidad en casa</label><input id="fCantidad" type="number" min="0" step="any" value="0"></div>
+      <div><label for="fEmpaque">Presentación (empaque)</label><input id="fEmpaque" type="number" min="0" step="any" placeholder="Opcional"></div>
+    </div>
+    <datalist id="unitList"><option>kg</option><option>g</option><option>L</option><option>ml</option><option>und</option><option>paquete</option><option>lata</option></datalist>
+    <div class="hint">Empaque: cuánto trae cada presentación en la misma unidad (ej. bolsa de 1 kg → 1). Si lo llenas, la compra se redondea a empaques completos.</div>
+    <div class="calc" id="preview"></div>
+    <div class="actions" style="justify-content:space-between">
+      <button type="button" class="btn danger" id="btnDel">Eliminar</button>
+      <span style="display:flex;gap:8px">
+        <button type="button" class="btn" id="btnCancel">Cancelar</button>
+        <button type="submit" class="btn primary">Guardar</button>
+      </span>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast"></div>
+
+<script>
+(() => {
+  const LS_DATA = 'mercado.data.v1', LS_CFG = 'mercado.cfg.v1', LS_CHECK = 'mercado.checks.v1';
+  const $ = s => document.querySelector(s);
+  const store = {
+    get(k, d){ try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
+    set(k, v){ try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+  };
+
+
+  let data = store.get(LS_DATA, null) || {diasObjetivo: 30, productos: []};
+  const hadLocal = !!store.get(LS_DATA, null);
+  let cfg = store.get(LS_CFG, {owner:'',repo:'',path:'productos.json',branch:'main',token:'',auto:false});
+  let checks = store.get(LS_CHECK, {});
+  let ghSha = null, dirty = false, editingId = null, pushTimer = null;
+
+  // ---------- cálculos ----------
+  const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isFinite(n) ? n : 0; };
+  const fmt = n => n.toLocaleString('es-CO', {maximumFractionDigits: Math.abs(n) < 0.1 && n !== 0 ? 3 : 2});
+  function calc(p){
+    const target = data.diasObjetivo || 30;
+    const c = num(p.consumoDia), q = num(p.cantidad), e = num(p.empaque);
+    const dias = c > 0 ? q / c : Infinity;
+    const falta = Math.max(0, target * c - q);
+    const empaques = e > 0 ? Math.ceil(falta / e - 1e-9) : null;
+    const comprar = e > 0 ? empaques * e : falta;
+    const estado = dias < 7 ? 'crit' : dias < target ? 'warn' : 'ok';
+    return {dias, falta, comprar, empaques, estado};
+  }
+  const diasTxt = d => d === Infinity ? 'sin consumo' : d < 1 ? '< 1 día' : `${Math.floor(d)} día${Math.floor(d) === 1 ? '' : 's'}`;
+  const buyTxt = (p, r) => r.empaques != null
+    ? `${r.empaques} × ${fmt(num(p.empaque))} ${p.unidad} (${fmt(r.comprar)} ${p.unidad})`
+    : `${fmt(r.comprar)} ${p.unidad}`;
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // ---------- render ----------
+  function categories(){ return [...new Set(data.productos.map(p => p.categoria).filter(Boolean))].sort((a,b) => a.localeCompare(b,'es')); }
+
+  function render(){
+    document.querySelectorAll('.metaDays').forEach(el => el.textContent = data.diasObjetivo);
+    const cats = categories();
+    const fc = $('#fCat'), cur = fc.value;
+    fc.innerHTML = '<option value="">Todas las categorías</option>' + cats.map(c => `<option${c===cur?' selected':''}>${esc(c)}</option>`).join('');
+    $('#catList').innerHTML = cats.map(c => `<option value="${esc(c)}">`).join('');
+
+    const all = data.productos.map(p => ({p, r: calc(p)}));
+    $('#sTotal').textContent = all.length;
+    $('#sCrit').textContent = all.filter(x => x.r.estado === 'crit').length;
+    $('#sBuy').textContent = all.filter(x => x.r.comprar > 0).length;
+
+    const q = $('#q').value.trim().toLowerCase(), cat = fc.value, sort = $('#sort').value;
+    let rows = all.filter(x => (!cat || x.p.categoria === cat) && (!q || (x.p.nombre + ' ' + (x.p.marca || '')).toLowerCase().includes(q)));
+    rows.sort(sort === 'nombre' ? (a,b) => a.p.nombre.localeCompare(b.p.nombre,'es')
+      : sort === 'cat' ? (a,b) => (a.p.categoria||'').localeCompare(b.p.categoria||'','es') || a.p.nombre.localeCompare(b.p.nombre,'es')
+      : (a,b) => a.r.dias - b.r.dias);
+
+    $('#list').innerHTML = rows.length ? rows.map(({p, r}) => `
+      <div class="card ${r.estado === 'ok' ? '' : r.estado}" data-id="${p.id}">
+        <div class="top">
+          <div><h3>${esc(p.nombre)}${p.marca ? ` <small class="brand">${esc(p.marca)}</small>` : ''}</h3><div class="cat">${esc(p.categoria)} · ${fmt(num(p.consumoDia))} ${esc(p.unidad)}/día${num(p.empaque) ? ` · empaque ${fmt(num(p.empaque))} ${esc(p.unidad)}` : ''}</div></div>
+          <span class="pill">${diasTxt(r.dias)}</span>
+        </div>
+        <div class="qty">
+          <button type="button" data-act="dec" aria-label="Restar">−</button>
+          <input type="number" inputmode="decimal" min="0" step="any" value="${num(p.cantidad)}" data-act="qty" aria-label="Cantidad en casa de ${esc(p.nombre)}">
+          <button type="button" data-act="inc" aria-label="Sumar">+</button>
+          <span class="u">${esc(p.unidad)}</span>
+        </div>
+        ${num(p.empaque) > 1 ? `<div class="pk">≈ ${fmt(num(p.cantidad) / num(p.empaque))} empaque(s)</div>` : ''}
+        <div class="meta">
+          <span>Comprar: <strong class="buy">${r.comprar > 0 ? esc(buyTxt(p, r)) : 'nada ✓'}</strong></span>
+          <button type="button" class="edit" data-act="edit">Editar</button>
+        </div>
+      </div>`).join('')
+      : `<div class="empty">${data.productos.length ? 'Ningún producto coincide con el filtro.' : 'Aún no hay productos. Toca “＋ Producto”, o carga tu productos.json en Ajustes.'}</div>`;
+
+    renderBuy(all);
+  }
+
+  function renderBuy(all){
+    const items = all.filter(x => x.r.comprar > 0);
+    if (!items.length){ $('#buyList').innerHTML = '<div class="empty">Tienes todo cubierto para el periodo. 🎉</div>'; return; }
+    const groups = {};
+    items.forEach(x => (groups[x.p.categoria || 'Sin categoría'] ||= []).push(x));
+    $('#buyList').innerHTML = Object.keys(groups).sort((a,b) => a.localeCompare(b,'es')).map(g => `
+      <div class="catgroup"><h2>${esc(g)}</h2>
+        ${groups[g].sort((a,b) => a.p.nombre.localeCompare(b.p.nombre,'es')).map(({p, r}) => `
+          <label class="row ${checks[p.id] ? 'done' : ''}">
+            <input type="checkbox" data-check="${p.id}" ${checks[p.id] ? 'checked' : ''}>
+            <span class="n"><b>${esc(p.nombre)}</b>${p.marca ? ` · ${esc(p.marca)}` : ''}<small>Tienes ${fmt(num(p.cantidad))} ${esc(p.unidad)} · alcanza ${diasTxt(r.dias)}</small></span>
+            <span class="q">${esc(buyTxt(p, r))}</span>
+          </label>`).join('')}
+      </div>`).join('');
+  }
+
+  // ---------- persistencia ----------
+  function save(){
+    data.actualizado = new Date().toISOString();
+    store.set(LS_DATA, data);
+    dirty = true; setSync();
+    render();
+    if (cfg.auto && ghReady()){ clearTimeout(pushTimer); pushTimer = setTimeout(() => ghPush(true), 2500); }
+  }
+  function setSync(txt){
+    $('#syncState').textContent = txt || (ghReady() ? (dirty ? 'Cambios sin subir' : 'Sincronizado') : 'Guardado en este equipo');
+  }
+  function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600); }
+
+  // ---------- eventos inventario ----------
+  $('#list').addEventListener('click', e => {
+    const card = e.target.closest('.card'); if (!card) return;
+    const p = data.productos.find(x => x.id === card.dataset.id); const act = e.target.dataset.act;
+    if (act === 'edit') return openDlg(p);
+    if (act === 'inc' || act === 'dec'){
+      const step = num(p.empaque) || (num(p.consumoDia) >= 1 ? 1 : num(p.consumoDia) || 1);
+      p.cantidad = Math.max(0, Math.round((num(p.cantidad) + (act === 'inc' ? step : -step)) * 1000) / 1000);
+      save();
+    }
+  });
+  $('#list').addEventListener('change', e => {
+    if (e.target.dataset.act !== 'qty') return;
+    const p = data.productos.find(x => x.id === e.target.closest('.card').dataset.id);
+    p.cantidad = Math.max(0, num(e.target.value)); save();
+  });
+  ['#q', '#fCat', '#sort'].forEach(s => $(s).addEventListener('input', render));
+
+  // ---------- pestañas ----------
+  document.querySelectorAll('nav button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('nav button').forEach(x => x.classList.toggle('on', x === b));
+    ['inv','buy','cfg'].forEach(t => $('#tab-' + t).classList.toggle('hidden', t !== b.dataset.tab));
+    $('#btnAdd').classList.toggle('hidden', b.dataset.tab !== 'inv');
+    window.scrollTo(0, 0);
+  }));
+
+  // ---------- diálogo producto ----------
+  const dlg = $('#dlg');
+  function openDlg(p){
+    editingId = p ? p.id : null;
+    $('#dlgTitle').textContent = p ? 'Editar producto' : 'Nuevo producto';
+    $('#fNombre').value = p?.nombre || ''; $('#fCategoria').value = p?.categoria || ''; $('#fMarca').value = p?.marca || '';
+    $('#fUnidad').value = p?.unidad || ''; $('#fConsumo').value = p?.consumoDia ?? '';
+    $('#fCantidad').value = p?.cantidad ?? 0; $('#fEmpaque').value = p?.empaque || '';
+    $('#btnDel').classList.toggle('hidden', !p);
+    preview();
+    dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', '');
+  }
+  function formProduct(){
+    return { nombre: $('#fNombre').value.trim(), marca: $('#fMarca').value.trim(), categoria: $('#fCategoria').value.trim(), unidad: $('#fUnidad').value.trim(),
+      consumoDia: num($('#fConsumo').value), cantidad: Math.max(0, num($('#fCantidad').value)), empaque: num($('#fEmpaque').value) || null };
+  }
+  function preview(){
+    const p = formProduct(), r = calc(p);
+    $('#preview').innerHTML = p.consumoDia > 0
+      ? `Alcanza para <b>${diasTxt(r.dias)}</b>. Para ${data.diasObjetivo} días necesitas ${fmt(p.consumoDia * data.diasObjetivo)} ${esc(p.unidad)} → comprar <b>${r.comprar > 0 ? esc(buyTxt(p, r)) : 'nada'}</b>.`
+      : 'Escribe el consumo por día para ver el cálculo.';
+  }
+  ['#fConsumo','#fCantidad','#fEmpaque','#fUnidad'].forEach(s => $(s).addEventListener('input', preview));
+  $('#btnAdd').addEventListener('click', () => openDlg(null));
+  $('#btnCancel').addEventListener('click', () => dlg.close());
+  $('#btnDel').addEventListener('click', () => {
+    const p = data.productos.find(x => x.id === editingId);
+    if (p && confirm(`¿Eliminar "${p.nombre}"?`)){ data.productos = data.productos.filter(x => x.id !== editingId); delete checks[editingId]; store.set(LS_CHECK, checks); dlg.close(); save(); }
+  });
+  $('#frm').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = formProduct();
+    if (!f.nombre || !f.categoria || !f.unidad){ toast('Completa producto, categoría y unidad'); return; }
+    if (editingId) Object.assign(data.productos.find(x => x.id === editingId), f);
+    else data.productos.push({id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2,5), ...f});
+    dlg.close(); save(); toast(editingId ? 'Producto actualizado' : 'Producto agregado');
+  });
+
+  // ---------- lista de compras ----------
+  $('#buyList').addEventListener('change', e => {
+    const id = e.target.dataset.check; if (!id) return;
+    if (e.target.checked) checks[id] = true; else delete checks[id];
+    store.set(LS_CHECK, checks); e.target.closest('.row').classList.toggle('done', e.target.checked);
+  });
+  $('#btnBought').addEventListener('click', () => {
+    const ids = Object.keys(checks).filter(id => checks[id]);
+    if (!ids.length) return toast('Marca primero lo que compraste');
+    ids.forEach(id => { const p = data.productos.find(x => x.id === id); if (p){ p.cantidad = Math.round((num(p.cantidad) + calc(p).comprar) * 1000) / 1000; } });
+    checks = {}; store.set(LS_CHECK, checks); save(); toast(`${ids.length} producto(s) sumados al inventario`);
+  });
+  $('#btnShare').addEventListener('click', async () => {
+    const items = data.productos.map(p => ({p, r: calc(p)})).filter(x => x.r.comprar > 0 && !checks[x.p.id]);
+    if (!items.length) return toast('No hay nada pendiente por comprar');
+    const txt = `🛒 Mercado para ${data.diasObjetivo} días\n` + items.sort((a,b) => (a.p.categoria||'').localeCompare(b.p.categoria||'','es'))
+      .map(({p, r}) => `• ${p.nombre}${p.marca ? ' (' + p.marca + ')' : ''}: ${buyTxt(p, r)}`).join('\n');
+    try { if (navigator.share){ await navigator.share({text: txt}); return; } } catch (err){ if (err.name === 'AbortError') return; }
+    try { await navigator.clipboard.writeText(txt); toast('Lista copiada'); } catch { prompt('Copia la lista:', txt); }
+  });
+
+  // ---------- ajustes ----------
+  $('#target').value = data.diasObjetivo;
+  $('#target').addEventListener('change', e => { data.diasObjetivo = Math.max(1, Math.round(num(e.target.value)) || 30); e.target.value = data.diasObjetivo; save(); });
+  $('#btnExport').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'productos.json'; a.click(); URL.revokeObjectURL(a.href);
+  });
+  $('#btnImport').addEventListener('click', () => $('#fileImport').click());
+  $('#fileImport').addEventListener('change', async e => {
+    const f = e.target.files[0]; if (!f) return;
+    try { applyData(JSON.parse(await f.text())); toast('Inventario cargado'); } catch { toast('El archivo no es un JSON válido'); }
+    e.target.value = '';
+  });
+  $('#btnReset').addEventListener('click', () => {
+    if (confirm('¿Borrar todos los productos de este equipo?')){ data = {diasObjetivo: data.diasObjetivo, productos: []}; save(); }
+  });
+  function applyData(d){
+    const list = Array.isArray(d) ? d : d.productos;
+    if (!Array.isArray(list)) throw new Error('formato');
+    data = { diasObjetivo: num(d.diasObjetivo) || data.diasObjetivo || 30,
+      productos: list.map((p, i) => ({ id: p.id || 'p' + i + Date.now().toString(36), nombre: p.nombre || p.producto || '', marca: p.marca || '', categoria: p.categoria || '',
+        unidad: p.unidad || 'und', consumoDia: num(p.consumoDia ?? p.consumo), cantidad: num(p.cantidad), empaque: num(p.empaque) || null })) };
+    $('#target').value = data.diasObjetivo;
+    store.set(LS_DATA, data); render();
+  }
+
+  // ---------- GitHub ----------
+  const ghReady = () => cfg.owner && cfg.repo && cfg.path && cfg.token;
+  const ghUrl = () => `https://api.github.com/repos/${encodeURIComponent(cfg.owner)}/${encodeURIComponent(cfg.repo)}/contents/${cfg.path.split('/').map(encodeURIComponent).join('/')}`;
+  const ghHeaders = () => ({Authorization: `Bearer ${cfg.token}`, Accept: 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28'});
+  const b64enc = s => { const b = new TextEncoder().encode(s); let bin = ''; b.forEach(x => bin += String.fromCharCode(x)); return btoa(bin); };
+  const b64dec = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, '')), c => c.charCodeAt(0)));
+
+  function readCfgForm(){
+    cfg = { owner: $('#ghOwner').value.trim(), repo: $('#ghRepo').value.trim(), path: $('#ghPath').value.trim() || 'productos.json',
+      branch: $('#ghBranch').value.trim() || 'main', token: $('#ghToken').value.trim(), auto: $('#ghAuto').checked };
+    store.set(LS_CFG, cfg); setSync();
+  }
+  function fillCfgForm(){
+    $('#ghOwner').value = cfg.owner; $('#ghRepo').value = cfg.repo; $('#ghPath').value = cfg.path;
+    $('#ghBranch').value = cfg.branch; $('#ghToken').value = cfg.token; $('#ghAuto').checked = !!cfg.auto;
+  }
+  async function ghPull(silent){
+    if (!ghReady()) return silent || toast('Completa los datos de GitHub en Ajustes');
+    setSync('Cargando…');
+    try {
+      const r = await fetch(`${ghUrl()}?ref=${encodeURIComponent(cfg.branch)}`, {headers: ghHeaders(), cache: 'no-store'});
+      if (r.status === 404){ ghSha = null; setSync(); return silent || toast('El archivo aún no existe: usa “Guardar en GitHub” para crearlo'); }
+      if (!r.ok) throw new Error(r.status === 401 ? 'Token inválido o vencido' : `Error ${r.status}`);
+      const j = await r.json(); ghSha = j.sha;
+      applyData(JSON.parse(b64dec(j.content))); dirty = false; setSync();
+      silent || toast('Inventario cargado desde GitHub');
+    } catch (err){ setSync('Error de sincronización'); toast('GitHub: ' + err.message); }
+  }
+  async function ghPush(silent){
+    if (!ghReady()) return toast('Completa los datos de GitHub en Ajustes');
+    setSync('Subiendo…');
+    try {
+      if (!ghSha){
+        const h = await fetch(`${ghUrl()}?ref=${encodeURIComponent(cfg.branch)}`, {headers: ghHeaders(), cache: 'no-store'});
+        if (h.ok) ghSha = (await h.json()).sha;
+      }
+      const body = { message: `Inventario actualizado ${new Date().toLocaleString('es-CO')}`, content: b64enc(JSON.stringify(data, null, 2)), branch: cfg.branch };
+      if (ghSha) body.sha = ghSha;
+      const r = await fetch(ghUrl(), {method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)});
+      if (r.status === 409 || r.status === 422){ ghSha = null; throw new Error('el archivo cambió en otro dispositivo; carga primero desde GitHub'); }
+      if (!r.ok) throw new Error(r.status === 401 ? 'Token inválido o vencido' : r.status === 403 || r.status === 404 ? 'sin permiso de escritura en ese repositorio' : `Error ${r.status}`);
+      ghSha = (await r.json()).content.sha; dirty = false; setSync();
+      silent || toast('Guardado en GitHub ✓');
+    } catch (err){ setSync('Error de sincronización'); toast('GitHub: ' + err.message); }
+  }
+  $('#ghSaveCfg').addEventListener('click', () => { readCfgForm(); toast('Ajustes guardados'); });
+  $('#ghPull').addEventListener('click', () => { readCfgForm(); ghPull(false); });
+  $('#ghPush').addEventListener('click', () => { readCfgForm(); ghPush(false); });
+
+  // ---------- inicio ----------
+  fillCfgForm(); render(); setSync();
+  if (cfg.auto && ghReady()) ghPull(true);
+  else if (!hadLocal) {
+    fetch('productos.json', {cache: 'no-store'}).then(r => r.ok ? r.json() : null)
+      .then(d => { if (d) { applyData(d); toast('Listado cargado: ' + data.productos.length + ' productos'); } }).catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
