@@ -48,7 +48,7 @@
       "categoria": "Alacena",
       "unidad": "g",
       "consumoDia": 9.52381,
-      "cantidad": 0,
+      "cantidad": 200,
       "empaque": 200
     },
     {
@@ -942,5 +942,5 @@
       "empaque": 1
     }
   ],
-  "actualizado": "2026-11-01T03:09:43.220Z"
+  "actualizado": "2026-11-01T03:09:47.932Z"
 }
