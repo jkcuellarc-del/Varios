@@ -1,4 +1,946 @@
 {
   "diasObjetivo": 30,
-  "productos": []
+  "productos": [
+    {
+      "id": "vinagre-plaza",
+      "nombre": "Vinagre",
+      "marca": "Plaza",
+      "categoria": "Alacena",
+      "unidad": "ml",
+      "consumoDia": 100,
+      "cantidad": 0,
+      "empaque": 3000
+    },
+    {
+      "id": "aceite-oliva-monticello",
+      "nombre": "Aceite Oliva",
+      "marca": "Monticello",
+      "categoria": "Alacena",
+      "unidad": "ml",
+      "consumoDia": 40,
+      "cantidad": 0,
+      "empaque": 2000
+    },
+    {
+      "id": "arroz-premium-diana",
+      "nombre": "Arroz Premium",
+      "marca": "Diana",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 50,
+      "cantidad": 3000,
+      "empaque": 3000
+    },
+    {
+      "id": "sal-refisal",
+      "nombre": "Sal",
+      "marca": "Refisal",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 4.166667,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "chocolate-girones",
+      "nombre": "Chocolate",
+      "marca": "Gironés",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 9.52381,
+      "cantidad": 0,
+      "empaque": 200
+    },
+    {
+      "id": "cafe-liofilizado-clasico-juan-valdez",
+      "nombre": "Café liofilizado Clasico",
+      "marca": "Juan Valdez",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 250
+    },
+    {
+      "id": "tallarines-sin-gluten-doria",
+      "nombre": "Tallarines sin gluten",
+      "marca": "Doria",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 13.333333,
+      "cantidad": 0,
+      "empaque": 400
+    },
+    {
+      "id": "macarron-sin-gluten-doria",
+      "nombre": "Macarron sin gluten",
+      "marca": "Doria",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 250
+    },
+    {
+      "id": "aromatica-manzanilla-frescampo",
+      "nombre": "Aromatica manzanilla",
+      "marca": "Frescampo",
+      "categoria": "Alacena",
+      "unidad": "bolsa",
+      "consumoDia": 0.666667,
+      "cantidad": 0,
+      "empaque": 20
+    },
+    {
+      "id": "aromatica-frutos-rojos-frescampo",
+      "nombre": "Aromatica frutos rojos",
+      "marca": "Frescampo",
+      "categoria": "Alacena",
+      "unidad": "bolsa",
+      "consumoDia": 0.666667,
+      "cantidad": 0,
+      "empaque": 20
+    },
+    {
+      "id": "leche-almendras-campi",
+      "nombre": "Leche Almendras",
+      "marca": "Campi",
+      "categoria": "Alacena",
+      "unidad": "ml",
+      "consumoDia": 257.142857,
+      "cantidad": 0,
+      "empaque": 900
+    },
+    {
+      "id": "leche-entera-alkosto",
+      "nombre": "Leche Entera",
+      "marca": "Alkosto",
+      "categoria": "Alacena",
+      "unidad": "ml",
+      "consumoDia": 300,
+      "cantidad": 0,
+      "empaque": 900
+    },
+    {
+      "id": "pedialyte-abbott",
+      "nombre": "Pedialyte",
+      "marca": "Abbott",
+      "categoria": "Alacena",
+      "unidad": "ml",
+      "consumoDia": 166.666667,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "ajonjoli-pend",
+      "nombre": "Ajonjoli",
+      "marca": "Pend",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 3.333333,
+      "cantidad": 0,
+      "empaque": 200
+    },
+    {
+      "id": "pimienta-negra-pend",
+      "nombre": "Pimienta negra",
+      "marca": "Pend",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 1.666667,
+      "cantidad": 0,
+      "empaque": 100
+    },
+    {
+      "id": "pimienta-cayena-pend",
+      "nombre": "Pimienta Cayena",
+      "marca": "Pend",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 1.666667,
+      "cantidad": 0,
+      "empaque": 100
+    },
+    {
+      "id": "bicarbonato-exito",
+      "nombre": "Bicarbonato",
+      "marca": "Éxito",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 16.666667,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "queso-azul-france",
+      "nombre": "Queso Azul",
+      "marca": "France",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 12.5,
+      "cantidad": 0,
+      "empaque": 125
+    },
+    {
+      "id": "lenteja-diana",
+      "nombre": "Lenteja",
+      "marca": "Diana",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 16.666667,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "totadas-multicereal-susanita",
+      "nombre": "Totadas multicereal",
+      "marca": "Susanita",
+      "categoria": "Alacena",
+      "unidad": "Und",
+      "consumoDia": 0.033333,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "galletas-salmas",
+      "nombre": "Galletas",
+      "marca": "Salmas",
+      "categoria": "Alacena",
+      "unidad": "Und",
+      "consumoDia": 0.033333,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "queso-pera-plaza",
+      "nombre": "Queso Pera",
+      "marca": "Plaza",
+      "categoria": "Alacena",
+      "unidad": "g",
+      "consumoDia": 16.666667,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "detergente-liquido-bicarbonato-rey-dersa",
+      "nombre": "Detergente Liquido Bicarbonato + Rey",
+      "marca": "Dersa",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 200,
+      "cantidad": 0,
+      "empaque": 4000
+    },
+    {
+      "id": "oxigeno-activado-o2",
+      "nombre": "Oxigeno Activado",
+      "marca": "O2",
+      "categoria": "Aseo",
+      "unidad": "g",
+      "consumoDia": 33.333333,
+      "cantidad": 0,
+      "empaque": 1000
+    },
+    {
+      "id": "soflan-brisa-de-jazmin-suavitel",
+      "nombre": "Soflan Brisa de Jazmin",
+      "marca": "Suavitel",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 25,
+      "cantidad": 0,
+      "empaque": 1500
+    },
+    {
+      "id": "jabon-rey-rey",
+      "nombre": "Jabon Rey",
+      "marca": "Rey",
+      "categoria": "Aseo",
+      "unidad": "Barra",
+      "consumoDia": 0.016667,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "clorox-clorox",
+      "nombre": "Clorox",
+      "marca": "Clorox",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 16.666667,
+      "cantidad": 0,
+      "empaque": 1000
+    },
+    {
+      "id": "jabon-polvo-exito",
+      "nombre": "Jabon Polvo",
+      "marca": "Éxito",
+      "categoria": "Aseo",
+      "unidad": "g",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "varsol-ecologico-mercacentro",
+      "nombre": "Varsol Ecologico",
+      "marca": "Mercacentro",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 30,
+      "cantidad": 0,
+      "empaque": 2700
+    },
+    {
+      "id": "jabon-arrancagrasa-d1",
+      "nombre": "Jabon Arrancagrasa",
+      "marca": "D1",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "quitagrasa-cocina-san-limpio",
+      "nombre": "Quitagrasa Cocina",
+      "marca": "San Limpio",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "citronela-todo-hogar",
+      "nombre": "Citronela",
+      "marca": "Todo Hogar",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 1000
+    },
+    {
+      "id": "limpia-vidrios-easy-off",
+      "nombre": "Limpia Vidrios",
+      "marca": "Easy Off",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 1000
+    },
+    {
+      "id": "papel-higienico-scote",
+      "nombre": "Papel Higienico",
+      "marca": "Scote",
+      "categoria": "Aseo",
+      "unidad": "Rollo",
+      "consumoDia": 0.8,
+      "cantidad": 0,
+      "empaque": 24
+    },
+    {
+      "id": "servilletas-familia",
+      "nombre": "Servilletas",
+      "marca": "Familia",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 3.333333,
+      "cantidad": 0,
+      "empaque": 100
+    },
+    {
+      "id": "toalla-cocina-familia",
+      "nombre": "Toalla Cocina",
+      "marca": "Familia",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 10,
+      "cantidad": 0,
+      "empaque": 100
+    },
+    {
+      "id": "shampo-brillo-aprovet",
+      "nombre": "Shampo Brillo",
+      "marca": "Aprovet",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 4.166667,
+      "cantidad": 0,
+      "empaque": 500
+    },
+    {
+      "id": "shampo-engrosador-tio-nacho",
+      "nombre": "Shampo Engrosador",
+      "marca": "Tio Nacho",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 8.333333,
+      "cantidad": 0,
+      "empaque": 1000
+    },
+    {
+      "id": "jabon-cuerpo-dove",
+      "nombre": "Jabón cuerpo",
+      "marca": "Dove",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.5,
+      "cantidad": 0,
+      "empaque": 4
+    },
+    {
+      "id": "jabon-cuerpo-acid-mantle",
+      "nombre": "Jabón cuerpo",
+      "marca": "Acid Mantle",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.5,
+      "cantidad": 0,
+      "empaque": 4
+    },
+    {
+      "id": "cepillo-dientes-colgate",
+      "nombre": "Cepillo Dientes",
+      "marca": "Colgate",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.027778,
+      "cantidad": 0,
+      "empaque": 5
+    },
+    {
+      "id": "crema-dental-jgb",
+      "nombre": "Crema Dental",
+      "marca": "JGB",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.05,
+      "cantidad": 0,
+      "empaque": 3
+    },
+    {
+      "id": "crema-dental-sensodine",
+      "nombre": "Crema Dental",
+      "marca": "Sensodine",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.033333,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "panuelos-familia",
+      "nombre": "Pañuelos",
+      "marca": "Familia",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.2,
+      "cantidad": 0,
+      "empaque": 6
+    },
+    {
+      "id": "toalla-bebe-d1",
+      "nombre": "Toalla Bebe",
+      "marca": "D1",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 5.333333,
+      "cantidad": 0,
+      "empaque": 80
+    },
+    {
+      "id": "desodorante-black-and-white-nivea",
+      "nombre": "Desodorante Black and white",
+      "marca": "Nivea",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.05,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "cuchilla-afeitar-d1",
+      "nombre": "Cuchilla Afeitar",
+      "marca": "D1",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.033333,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "rollo-pepe-ikea",
+      "nombre": "Rollo Pepe",
+      "marca": "Ikea",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.083333,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "hilo-dental-colgate",
+      "nombre": "Hilo Dental",
+      "marca": "Colgate",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.033333,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "copitos-alkosto",
+      "nombre": "Copitos",
+      "marca": "Alkosto",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.011111,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "toalla-desinfectante-d1",
+      "nombre": "Toalla Desinfectante",
+      "marca": "D1",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.033333,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "toalla-reutilizable-rendy",
+      "nombre": "Toalla Reutilizable",
+      "marca": "Rendy",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 0.1,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "polvo-y-brillo-binner",
+      "nombre": "Polvo y Brillo",
+      "marca": "Binner",
+      "categoria": "Aseo",
+      "unidad": "Und",
+      "consumoDia": 2.666667,
+      "cantidad": 0,
+      "empaque": 200
+    },
+    {
+      "id": "jabon-de-manos-pend",
+      "nombre": "Jabón de manos",
+      "marca": "Pend",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 37.777778,
+      "cantidad": 0,
+      "empaque": 1700
+    },
+    {
+      "id": "jabon-de-loza-lozacrem",
+      "nombre": "Jabon de Loza",
+      "marca": "Lozacrem",
+      "categoria": "Aseo",
+      "unidad": "ml",
+      "consumoDia": 50,
+      "cantidad": 0,
+      "empaque": 1500
+    },
+    {
+      "id": "bolsas-para-la-basura",
+      "nombre": "Bolsas para la Basura",
+      "marca": "",
+      "categoria": "Aseo",
+      "unidad": "und",
+      "consumoDia": 0,
+      "cantidad": 0,
+      "empaque": null
+    },
+    {
+      "id": "bolsa-papelera-bano",
+      "nombre": "Bolsa papelera baño",
+      "marca": "",
+      "categoria": "Aseo",
+      "unidad": "und",
+      "consumoDia": 0,
+      "cantidad": 0,
+      "empaque": null
+    },
+    {
+      "id": "carne-res-plaza",
+      "nombre": "Carne Res",
+      "marca": "Plaza",
+      "categoria": "Carnes",
+      "unidad": "g",
+      "consumoDia": 50,
+      "cantidad": 0,
+      "empaque": 1500
+    },
+    {
+      "id": "pollo-mac-pollo",
+      "nombre": "Pollo",
+      "marca": "Mac Pollo",
+      "categoria": "Carnes",
+      "unidad": "g",
+      "consumoDia": 366.666667,
+      "cantidad": 0,
+      "empaque": 11000
+    },
+    {
+      "id": "salmon-plaza",
+      "nombre": "Salmon",
+      "marca": "Plaza",
+      "categoria": "Carnes",
+      "unidad": "g",
+      "consumoDia": 50,
+      "cantidad": 0,
+      "empaque": 1500
+    },
+    {
+      "id": "atun-plaza",
+      "nombre": "Atun",
+      "marca": "Plaza",
+      "categoria": "Carnes",
+      "unidad": "g",
+      "consumoDia": 33.333333,
+      "cantidad": 0,
+      "empaque": 1000
+    },
+    {
+      "id": "zanahoria-plaza",
+      "nombre": "Zanahoria",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "arveja-plaza",
+      "nombre": "Arveja",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "pepino-guiso-plaza",
+      "nombre": "Pepino Guiso",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "zuquini-verde-plaza",
+      "nombre": "Zuquini Verde",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "cebolla-puerro-plaza",
+      "nombre": "Cebolla Puerro",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "tomate-plaza",
+      "nombre": "Tomate",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "cebollin-plaza",
+      "nombre": "Cebollin",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "limon-plaza",
+      "nombre": "Limon",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "cilantro-plaza",
+      "nombre": "Cilantro",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "ahuyama-plaza",
+      "nombre": "Ahuyama",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "espinaca-plaza",
+      "nombre": "Espinaca",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "acelga-plaza",
+      "nombre": "Acelga",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "papa-criolla-plaza",
+      "nombre": "Papa Criolla",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "papa-pastusa-plaza",
+      "nombre": "Papa Pastusa",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "papa-sabanera-plaza",
+      "nombre": "Papa Sabanera",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "frijol-plaza",
+      "nombre": "Frijol",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "coco-rayado-plaza",
+      "nombre": "Coco Rayado",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "aromaticas-yerba-plaza",
+      "nombre": "Aromaticas Yerba",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "aguacate-haz-plaza",
+      "nombre": "Aguacate Haz",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "papaya-plaza",
+      "nombre": "Papaya",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "mango-plaza",
+      "nombre": "Mango",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "mandarina-plaza",
+      "nombre": "Mandarina",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "arandano-plaza",
+      "nombre": "Arandano",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "fresa-plaza",
+      "nombre": "Fresa",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "frambuesa-plaza",
+      "nombre": "Frambuesa",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "pina-plaza",
+      "nombre": "Piña",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "canela-plaza",
+      "nombre": "Canela",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "tomillo-plaza",
+      "nombre": "Tomillo",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "laurel-plaza",
+      "nombre": "Laurel",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "finas-hierbas-plaza",
+      "nombre": "Finas Hierbas",
+      "marca": "Plaza",
+      "categoria": "Plaza",
+      "unidad": "Libra",
+      "consumoDia": 0.08,
+      "cantidad": 0,
+      "empaque": 1
+    },
+    {
+      "id": "arena-arena",
+      "nombre": "Arena",
+      "marca": "Arena",
+      "categoria": "Pepe",
+      "unidad": "g",
+      "consumoDia": 266.666667,
+      "cantidad": 0,
+      "empaque": 4000
+    },
+    {
+      "id": "comida-purina",
+      "nombre": "Comida",
+      "marca": "Purina",
+      "categoria": "Pepe",
+      "unidad": "g",
+      "consumoDia": 40,
+      "cantidad": 0,
+      "empaque": 3000
+    },
+    {
+      "id": "desparasitante-zoetis",
+      "nombre": "Desparasitante",
+      "marca": "Zoetis",
+      "categoria": "Pepe",
+      "unidad": "Und",
+      "consumoDia": 0.011111,
+      "cantidad": 0,
+      "empaque": 1
+    }
+  ],
+  "actualizado": "2026-11-01T03:08:09.392Z"
 }
