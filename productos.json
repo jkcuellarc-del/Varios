@@ -28,7 +28,7 @@
       "categoria": "Alacena",
       "unidad": "g",
       "consumoDia": 50,
-      "cantidad": 2999,
+      "cantidad": 500,
       "empaque": 3000
     },
     {
@@ -942,5 +942,5 @@
       "empaque": 1
     }
   ],
-  "actualizado": "2026-11-01T03:08:12.097Z"
+  "actualizado": "2026-11-01T03:08:17.507Z"
 }
