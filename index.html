@@ -153,6 +153,7 @@
         <button class="btn" id="ghPull">⬇ Cargar desde GitHub</button>
         <button class="btn primary" id="ghPush">⬆ Guardar en GitHub</button>
       </div>
+      <p id="ghLog" style="margin-top:10px"></p>
     </div>
 
     <div class="panel">
@@ -215,7 +216,7 @@
   const hadLocal = !!store.get(LS_DATA, null);
   let cfg = store.get(LS_CFG, {owner:'',repo:'',path:'productos.json',branch:'main',token:'',auto:false});
   let checks = store.get(LS_CHECK, {});
-  let ghSha = null, dirty = false, editingId = null, pushTimer = null;
+  let ghSha = null, dirty = store.get('mercado.dirty.v1', false), pushing = false, pushAgain = false, editingId = null, pushTimer = null;
 
   // ---------- cálculos ----------
   const num = v => { const n = parseFloat(String(v).replace(',', '.')); return isFinite(n) ? n : 0; };
@@ -300,12 +301,13 @@
   function save(){
     data.actualizado = new Date().toISOString();
     store.set(LS_DATA, data);
-    dirty = true; setSync();
+    setDirty(true);
     render();
     if (cfg.auto && ghReady()){ clearTimeout(pushTimer); pushTimer = setTimeout(() => ghPush(true), 2500); }
   }
+  function setDirty(v){ dirty = v; store.set('mercado.dirty.v1', v); setSync(); }
   function setSync(txt){
-    $('#syncState').textContent = txt || (ghReady() ? (dirty ? 'Cambios sin subir' : 'Sincronizado') : 'Guardado en este equipo');
+    const el = $('#syncState'); el.textContent = txt || (ghReady() ? (dirty ? 'Cambios sin subir' : 'Sincronizado') : 'Guardado en este equipo');
   }
   function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600); }
 
@@ -436,34 +438,64 @@
     $('#ghOwner').value = cfg.owner; $('#ghRepo').value = cfg.repo; $('#ghPath').value = cfg.path;
     $('#ghBranch').value = cfg.branch; $('#ghToken').value = cfg.token; $('#ghAuto').checked = !!cfg.auto;
   }
+  function ghErr(msg){
+    setSync('Error de sincronización');
+    $('#ghLog').innerHTML = `<b style="color:var(--red)">Último error (${new Date().toLocaleTimeString('es-CO')}):</b> ${esc(msg)}`;
+    toast('GitHub: ' + msg);
+  }
+  function ghOk(msg){ $('#ghLog').textContent = `${msg} · ${new Date().toLocaleTimeString('es-CO')}`; }
+  async function ghGet(){
+    let r;
+    try { r = await fetch(`${ghUrl()}?ref=${encodeURIComponent(cfg.branch)}&t=${Date.now()}`, {headers: ghHeaders(), cache: 'no-store'}); }
+    catch { throw new Error('sin conexión a internet o GitHub no responde'); }
+    if (r.status === 404) return null;
+    if (!r.ok) throw new Error(ghStatus(r.status));
+    return r.json();
+  }
+  function ghStatus(st){
+    return st === 401 ? 'el token es inválido o venció (créalo de nuevo y pégalo en Ajustes)'
+      : st === 403 ? 'el token no tiene permiso “Contents: Read and write” sobre este repositorio'
+      : st === 404 ? 'no se encontró el repositorio: revisa usuario, repositorio y que el token tenga acceso a él'
+      : `GitHub respondió con error ${st}`;
+  }
   async function ghPull(silent){
     if (!ghReady()) return silent || toast('Completa los datos de GitHub en Ajustes');
+    if (pushing) return;
     setSync('Cargando…');
     try {
-      const r = await fetch(`${ghUrl()}?ref=${encodeURIComponent(cfg.branch)}`, {headers: ghHeaders(), cache: 'no-store'});
-      if (r.status === 404){ ghSha = null; setSync(); return silent || toast('El archivo aún no existe: usa “Guardar en GitHub” para crearlo'); }
-      if (!r.ok) throw new Error(r.status === 401 ? 'Token inválido o vencido' : `Error ${r.status}`);
-      const j = await r.json(); ghSha = j.sha;
-      applyData(JSON.parse(b64dec(j.content))); dirty = false; setSync();
+      const j = await ghGet();
+      if (!j){ ghSha = null; setSync(); return silent || toast('El archivo aún no existe: usa “Guardar en GitHub” para crearlo'); }
+      ghSha = j.sha;
+      applyData(JSON.parse(b64dec(j.content))); setDirty(false); ghOk('Cargado desde GitHub');
       silent || toast('Inventario cargado desde GitHub');
-    } catch (err){ setSync('Error de sincronización'); toast('GitHub: ' + err.message); }
+    } catch (err){ ghErr(err.message); }
   }
   async function ghPush(silent){
-    if (!ghReady()) return toast('Completa los datos de GitHub en Ajustes');
-    setSync('Subiendo…');
+    if (!ghReady()) return silent || toast('Completa los datos de GitHub en Ajustes');
+    if (pushing){ pushAgain = true; return; }        // espera a que termine el envío en curso
+    pushing = true; setSync('Subiendo…');
     try {
-      if (!ghSha){
-        const h = await fetch(`${ghUrl()}?ref=${encodeURIComponent(cfg.branch)}`, {headers: ghHeaders(), cache: 'no-store'});
-        if (h.ok) ghSha = (await h.json()).sha;
+      for (let intento = 0; intento < 3; intento++){
+        if (!ghSha || intento > 0){ const j = await ghGet(); ghSha = j ? j.sha : null; }
+        const body = { message: `Inventario actualizado ${new Date().toLocaleString('es-CO')}`, content: b64enc(JSON.stringify(data, null, 2)), branch: cfg.branch };
+        if (ghSha) body.sha = ghSha;
+        let r;
+        try { r = await fetch(ghUrl(), {method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)}); }
+        catch { throw new Error('sin conexión a internet o GitHub no responde'); }
+        if (r.status === 409 || r.status === 422) continue;   // versión desactualizada: toma la última y reintenta
+        if (!r.ok) throw new Error(ghStatus(r.status));
+        ghSha = (await r.json()).content.sha;
+        if (!pushAgain) setDirty(false);
+        ghOk('Guardado en GitHub');
+        silent || toast('Guardado en GitHub ✓');
+        return;
       }
-      const body = { message: `Inventario actualizado ${new Date().toLocaleString('es-CO')}`, content: b64enc(JSON.stringify(data, null, 2)), branch: cfg.branch };
-      if (ghSha) body.sha = ghSha;
-      const r = await fetch(ghUrl(), {method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)});
-      if (r.status === 409 || r.status === 422){ ghSha = null; throw new Error('el archivo cambió en otro dispositivo; carga primero desde GitHub'); }
-      if (!r.ok) throw new Error(r.status === 401 ? 'Token inválido o vencido' : r.status === 403 || r.status === 404 ? 'sin permiso de escritura en ese repositorio' : `Error ${r.status}`);
-      ghSha = (await r.json()).content.sha; dirty = false; setSync();
-      silent || toast('Guardado en GitHub ✓');
-    } catch (err){ setSync('Error de sincronización'); toast('GitHub: ' + err.message); }
+      throw new Error('no se pudo guardar por un conflicto de versiones; intenta de nuevo');
+    } catch (err){ ghErr(err.message); }
+    finally {
+      pushing = false;
+      if (pushAgain){ pushAgain = false; ghPush(true); }
+    }
   }
   $('#ghSaveCfg').addEventListener('click', () => { readCfgForm(); toast('Ajustes guardados'); });
   $('#ghPull').addEventListener('click', () => { readCfgForm(); ghPull(false); });
@@ -471,11 +503,14 @@
 
   // ---------- inicio ----------
   fillCfgForm(); render(); setSync();
-  if (cfg.auto && ghReady()) ghPull(true);
+  if (cfg.auto && ghReady()) (dirty ? ghPush(true) : ghPull(true));
   else if (!hadLocal) {
     fetch('productos.json', {cache: 'no-store'}).then(r => r.ok ? r.json() : null)
       .then(d => { if (d) { applyData(d); toast('Listado cargado: ' + data.productos.length + ' productos'); } }).catch(() => {});
   }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && cfg.auto && ghReady() && !pushing) (dirty ? ghPush(true) : ghPull(true));
+  });
 })();
 </script>
 </body>
